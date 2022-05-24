@@ -15,4 +15,22 @@ export default class MatchesService {
     });
     return result;
   };
+
+  public inProgressTrue = async () => {
+    const result = await this.match.findAll({
+      where: { inProgress: true },
+      include: [{ model: Team, as: 'teamHome', attributes: { exclude: ['id'] } },
+        { model: Team, as: 'teamAway', attributes: { exclude: ['id'] } }],
+    });
+    return result;
+  };
+
+  public inProgressFalse = async () => {
+    const result = await this.match.findAll({
+      where: { inProgress: false },
+      include: [{ model: Team, as: 'teamHome', attributes: { exclude: ['id'] } },
+        { model: Team, as: 'teamAway', attributes: { exclude: ['id'] } }],
+    });
+    return result;
+  };
 }
