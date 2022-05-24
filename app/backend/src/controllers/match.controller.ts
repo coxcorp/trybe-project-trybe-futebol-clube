@@ -23,4 +23,14 @@ export default class MatchController {
       next(e);
     }
   };
+
+  public finishMatch = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const { id } = req.params;
+      const { code, body } = await matchServices.finishMatch(Number(id));
+      return res.status(code).json(body);
+    } catch (e) {
+      next(e);
+    }
+  };
 }
