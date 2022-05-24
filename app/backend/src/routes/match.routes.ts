@@ -16,6 +16,13 @@ matchRouter.post(
   async (req: Request, res:Response, next: NextFunction) => matchController.create(req, res, next),
 );
 matchRouter.patch(
+  '/:id',
+  validation.tokenValidation,
+  async (req: Request, res:Response, next: NextFunction) => {
+    matchController.updateMatch(req, res, next);
+  },
+);
+matchRouter.patch(
   '/:id/finish',
   validation.tokenValidation,
   async (req: Request, res:Response, next: NextFunction) => {
