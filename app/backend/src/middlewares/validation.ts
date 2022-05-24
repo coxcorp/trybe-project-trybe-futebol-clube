@@ -1,4 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
+import jwtVerify from '../helpers/jwtVerify';
 import User from '../database/models/User';
 
 export default class Validation {
@@ -41,21 +42,14 @@ export default class Validation {
     next();
   };
 
-  public usernameValidation = (
+  public tokenValidation = (
     req: Request,
     res: Response,
     next: NextFunction,
   ) => {
-    const { username } = req.body;
-    if (!username) {
-      return res.status(400).send({ error: 'Username is required' });
-    }
-    if (typeof (username) !== 'string') {
-      return res.status(422).send({ error: 'Username must be a string' });
-    }
-    if (username.length <= 2) {
-      return res.status(422).send({ error: 'Username must be longer than 2 characters' });
-    }
+    const token = req.headers.authorization;
+    if (!token) return res.status(401).json({ error: 'Token not found' });
+    if (!jwtVerify(token)) return res.status(401).json({ error: 'Invalid token' });
     next();
   };
 }
