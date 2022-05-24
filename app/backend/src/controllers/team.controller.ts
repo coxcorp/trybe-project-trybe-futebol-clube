@@ -16,7 +16,7 @@ export default class TeamController {
   public getById = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const { id } = req.params;
-      const result = await teamServices.getById(+id);
+      const result = await teamServices.getById(Number(id));
       return res.status(200).json(result);
     } catch (e) {
       next(e);
